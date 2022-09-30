@@ -1,0 +1,244 @@
+
+
+<section class=section>
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+        
+        <p>
+          <% if @coursemodule.video.attached? %>
+            <%= cl_video_tag(@coursemodule.video.key, :controls => true) %>
+          <% end %>
+        </p>
+
+        <% if current_user.id == @coursemodule.course.user.id %>
+          <div class='buttons is-centered'>
+            <%= link_to 'Edit', course_modules_edit_path(:id => @coursemodule.id), class: 'button' %>
+            <%= link_to 'Delete', course_modules_delete_path(:id => @coursemodule.id), method: :delete, class: 'button is-danger' %>
+          </div>  
+        <% end %>
+
+        <br>
+        <br>
+
+        <%= link_to 'Go Back', courses_show_path(:id => @coursemodule.course.id), class: 'button'%>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class=section>
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <% if @coursemodule.comments.length == 0 %>
+          <p class="title is-1"> No Comments here yet! </p>
+        <% end %>
+
+        <% @coursemodule.comments.each do |comment| %>
+          <article class="media">
+            <figure class="media-left">
+              <% if comment.user.picture.attached? %>
+                <p class="image is-128x128 is-rounded">
+                  <%= cl_image_tag(comment.user.picture.key, width: 400, height: 400, crop: :scale)%>
+                </p>
+              <% end %>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong class="title is-2"><%= comment.title %></strong>
+                  <br>
+                  <%= comment.content %>
+                  <br>
+                  <strong><%= comment.user.name %> <%= comment.user.last_name %></strong> <small><%= comment.user.email %></small> <small><%= comment.created_at %></small>
+                </p>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  
+                </div>
+
+                <div class="level-right">
+
+                  <% if comment.user == current_user %>
+                    <div class="level-item has-text-centered">
+                      <div>
+                        <%= link_to 'Edit Comment', comments_edit_path(:id => comment.id), :class => 'button' %>
+                      </div>
+                    </div>
+                  <% end %>
+                  
+                </div>
+              </nav>
+
+              <% if current_user == @coursemodule.course.user or current_user == comment.user %>
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+
+                      <%= form_with(model: @reply, method: :post, url: replies_create_path(:id => comment.id)) do |form|%>
+                        <p class="heading"> Reply to this comment </p>
+
+                        <div class="field">
+                          <p class="control">
+                            <%= form.text_area :content, :class => 'textarea', :placeholder => 'Write your reply...' %>
+                          </p>
+                        </div>
+
+                        <div class="field is-grouped">
+                          <div class="control">
+                            <%= form.submit 'Reply', :class => 'button is-link' %>
+                          </div>
+                        </div>
+                        
+                      <% end %>
+
+                    </div>
+                  </div>
+                </article>
+              <% end %>
+
+              <% if comment.replies.any? %>
+
+                <% comment.replies.each do |reply| %>
+
+                  <article class="media">
+
+                    <figure class="media-left">
+                      <% if reply.user.picture.attached? %>
+                        <p class="image is-128x128 is-rounded">
+                          <%= cl_image_tag(reply.user.picture.key, width: 400, height: 400, crop: :scale)%>
+                        </p>
+                      <% end %>
+                    </figure>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong class="title is-4"><%= reply.user.name %> <%= reply.user.last_name %></strong>
+                          <br>
+                          <%= reply.content %>
+                          <br>
+                          <small><%= reply.user.email %></small> <small><%= reply.created_at %></small>
+                        </p>
+                      </div>
+
+                      <nav class="level is-mobile">
+                        <div class="level-left">
+                          
+                        </div>
+
+                        <div class="level-right">
+
+                          <% if reply.user == current_user %>
+                            <div class="level-item has-text-centered">
+                              <div>
+                                <%= link_to 'Edit Reply', replies_edit_path(:id => reply.id), :class => 'button' %>
+                              </div>
+                            </div>
+                          <% end %>
+                          
+                        </div>
+                      </nav>
+                    </div>
+
+                    <% if reply.user == current_user or current_user.is_admin %>
+                      <div class="media-right">
+                        <nav class="level is-mobile">
+                          <div class="level-right">
+
+                            <div class="level-item has-text-centered">
+                              <%= link_to 'delete reply', replies_delete_path(:id => reply.id), method: :delete, :class => 'delete is-danger' %>
+                            </div>
+
+                          </div>
+                        </nav>
+                      </div>
+                    <% end %>
+                    
+                  </article>
+
+                <% end %>
+
+              <% end %>
+
+            </div>
+
+            <% if comment.user == current_user or current_user.is_admin %>
+              <div class="media-right">
+                <nav class="level is-mobile">
+                  <div class="level-right">
+
+                    <div class="level-item has-text-centered">
+                      <%= link_to 'delete comment', comments_delete_path(:id => comment.id), method: :delete, :class => 'delete is-danger' %>
+                    </div>
+
+                  </div>
+                </nav>
+              </div>
+            <% end %>
+
+          </article>
+        <% end %>
+
+
+        <% if @coursemodule.course.inscripted_users.include?(current_user) %>
+          <article class="media">
+            <figure class="media-left">
+              <% if current_user.picture.attached? %>
+                <p class="image is-128x128 is-rounded">
+                  <%= cl_image_tag(current_user.picture.key, width: 400, height: 400, crop: :scale)%>
+                </p>
+              <% end %>
+            </figure>
+            <div class="media-content">
+
+              <%= form_with(model: @comment, method: :post, url: comments_create_path(:id => @coursemodule.id)) do |form|%>
+
+                <div class="field">
+                  <%= form.label 'Comment Title', :class => 'label'%>
+                  <p class="control">
+                    <%= form.text_field :title, :class => 'input', :type => 'text', :placeholder => 'Write the title for your comment here'  %>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <%= form.label 'Comment Content', :class => 'label' %>
+                  <p class="control">
+                    <%= form.text_area :content, :class => 'textarea', :placeholder => 'Write your comment...' %>
+                  </p>
+                </div>
+
+                <div class="field is-grouped">
+                  <div class="control">
+                    <%= form.submit 'Post comment', :class => 'button is-link' %>
+                  </div>
+                </div>
+              
+              <% end %>
+
+              </div>
+            </article>
+          <% end %>
+
+          <br>
+
+        <br>
+        <p><%= link_to 'Go Back', courses_show_path(:id => @coursemodule.course.id), class: 'button'%></p>
+        <br>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+
+
+

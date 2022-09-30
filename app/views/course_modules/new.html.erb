@@ -1,0 +1,42 @@
+
+<% notice %>
+<section class=section>
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <%= form_with(model: @course_module, method: :post, url: course_modules_create_path(:id => @course.id)) do |form|%> 
+          <div class=field>
+            <%= form.label :Title, :class => 'label' %>
+            <div class=control>
+              <%= form.text_field :title, :class => 'input', :type => 'text' %>
+              </div>
+          </div>
+          <div class=field>
+            <%= form.label :Description, :class => 'label'  %>
+            <div class=control>
+              <%= form.text_area :description, :class => 'textarea' %>
+            </div>
+          </div>
+          <div class=field>
+            <%= form.label :Video, :class => 'label' %>
+            <%= form.file_field :video, direct_upload: true, :class => 'button' %>
+          </div>
+          <br>
+          <div>
+            <%= form.submit 'Create class', :class => 'button is-link'  %>
+          </div>
+        <% end %>
+        <br>
+        <br>
+        <br>
+        <%= link_to 'go back', courses_show_path(:id => @course.id), :class => 'button is-link is-light' %>
+      
+      </div>
+    </div>
+  </div> 
+
+
+</section>
+

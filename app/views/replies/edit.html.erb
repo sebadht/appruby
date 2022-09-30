@@ -1,0 +1,32 @@
+<section class="section">
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <%= form_with(model: @reply, method: :patch, url: replies_update_path(:id => @reply.id)) do |form|%>
+
+          <div class="field">
+            <%= form.label 'Reply Content', :class => 'label' %>
+            <p class="control">
+              <%= form.text_area :content, :class => 'textarea' %>
+            </p>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= form.submit 'Update Reply', :class => 'button is-link' %>
+            </div>
+          </div>
+        
+        <br>
+
+        <% end %>
+
+        <br>
+        <%= link_to 'go back', course_modules_show_path(:id => @reply.comment.course_module.id), :class => 'button' %>
+        <br>
+      </div>
+    </div>
+  </div>
+</section>

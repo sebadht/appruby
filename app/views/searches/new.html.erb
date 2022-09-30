@@ -1,0 +1,27 @@
+<h1>Advanced search </h1>
+
+<section class="section">
+  <%= form_for @search, hmtl: {class: "pure-form"} do |form|%>
+    <div class="columns is-centered">
+      <div class="column is-half">
+
+        <div class="field">
+          <%= form.label :keywords %> <br />
+          <%= form.text_field :keywords %>
+        </div>
+
+        <div class="field">
+          <%= form.label :category %> <br />
+          <%= form.select :category, options_for_select(@categories), :include_blank => true%>
+        </div>
+
+        <div class="actions"><%= form.submit "Search", class: "pure_button pure_button_primary" %></div>
+
+        
+
+    
+
+      </div>
+    </div>
+  <% end %>
+</section>

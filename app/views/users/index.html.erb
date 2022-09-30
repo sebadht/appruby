@@ -1,0 +1,26 @@
+
+<h1>Users#index</h1>
+<%= notice %>
+
+<table align='center'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th colspan='3'></th> 
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <% if not user.is_admin %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.email %></td>
+          <td><%= link_to 'View details', users_show_path(:id => user.id) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

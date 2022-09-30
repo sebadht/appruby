@@ -1,0 +1,97 @@
+
+<section class="section">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
+    <div class=container>
+      <div class='columns is-centered'>
+        <div class='column is-half'>
+
+          <h2 class='is-size-4'>Edit <%= resource_name.to_s.humanize %></h2>
+
+          <div class="field">
+            <%= f.label "Picture", :class => 'label' %>
+            <%= f.file_field :picture, direct_upload: true, :class => 'button'%>
+          </div>
+            
+          <div class="field">
+            <%= f.label "name", :class => 'label' %>
+            <div class="control">
+              <%= f.text_field :name, :class => 'input', :type => 'text', :placeholder => 'Write your name here', autofocus: true, autocomplete: "name" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label "last name", :class => 'label' %>
+            <div class="control">
+              <%= f.text_field :last_name, :class => 'input', :type => 'text', :placeholder => 'Write your last name here', autofocus: true, autocomplete: "last_name" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label "email", :class => 'label' %>
+            <div class="control">
+              <%= f.text_field :email, :class => 'input', :type => 'text', :placeholder => 'Write your email here', autofocus: true, autocomplete: "email" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label "Personal info", :class => 'label '%>
+            <div class="control">
+              <%= f.text_area :personal_info, :class => 'textarea' %>
+            </div>
+          </div>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+
+          <div class="field">
+            <%= f.label "password", :class => 'label' %> <i>(leave blank if you don't want to change it)</i><br />
+            <div class="control">
+              <%= f.password_field :password, :class => 'input', :type => 'password', autofocus: true, autocomplete: "new-password" %>
+            </div>
+            <% if @minimum_password_length %>
+              <br />
+              <em><%= @minimum_password_length %> characters minimum</em>
+            <% end %>
+          </div>
+
+          <div class="field">
+            <%= f.label "password confirmation", :class => 'label' %>
+            <div class="control">
+              <%= f.password_field :password_confirmation, :class => 'input', :type => 'password', autofocus: true, autocomplete: "new-password" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label "Current password", :class => 'label' %><i>(we need your current password to confirm your changes)</i><br />
+            <div class="control">
+              <%= f.password_field :current_password, :class => 'input', :type => 'password', autocomplete: "current-password" %>
+            </div>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Update", :class => 'button' %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+        <% if current_user.picture.attached? %>
+          <p><%= button_to 'Delete user picture', users_delete_picture_path(:id => @user.id), method: :delete, :class => 'button' %></p>
+          <br>
+        <% end %>
+        <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => 'button' %></p>
+        <br>
+        <p><%= link_to "Go Back", :back, :class => 'button' %></p>
+      </div>
+    </div>
+  </div>
+
+</section>

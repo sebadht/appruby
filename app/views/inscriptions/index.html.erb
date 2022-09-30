@@ -1,0 +1,22 @@
+
+
+<table align='left'>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Last Name</th>
+      <th colspan='3'></th> 
+    </tr>
+  </thead>
+  <tbody>
+  <% @course.inscripted_users.each do |inscripted| %>
+    <tr>
+      <td><%= inscripted.id %></td>
+      <td><%= inscripted.name %></td>
+      <td><%= inscripted.last_name %></td>
+      <td><%= link_to 'View details', users_show_path(:id => inscripted.id) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,68 @@
+<section class="section">
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+        <article class="media">
+          <figure class="media-left">
+            <% if @user.picture.attached? %>
+              <p class="image is-256x256">
+                <%= cl_image_tag(@user.picture.key, width: 300, height: 200, crop: :scale) %>
+              </p>
+            <% end %>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+              <p class="title is-1">
+                <%= @user.name %> <%= @user.last_name %>  
+              </p>
+              <p class="subtitle">
+                <small><%= @user.email %></small>
+              </p>
+              <p>
+                <%= @user.personal_info %>
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">  
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <% if current_user %>
+          <% if current_user.id == @user.id%>
+            <p>
+              <%= link_to "Edit profile", edit_user_registration_path, :class => 'button is-link' %>
+              <br>
+              <br>
+            </p>
+          <% end %>
+
+          <% if current_user.is_admin%>
+            <p>
+              <%= button_to 'Delete user', users_delete_path(:id => @user.id), method: :delete, :class => 'button is-light' %>
+              <br>
+              <br>
+            </p>
+          <% end %>
+
+          <% if current_user.id == @user.id%>
+            <p>
+              <%= button_to 'Delete account', users_delete_path(:id => @user.id), method: :delete, :class => 'button is-light' %>
+              <br>
+              <br>
+            </p>
+          <% end %>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</section>

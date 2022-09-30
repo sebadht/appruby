@@ -1,0 +1,125 @@
+<section class="section">
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <% if @course.reviews.length == 0 %>
+          <p class="title is-1"> No Reviews here yet! </p>
+        <% end %>
+
+        <% @course.reviews.each do |review| %>
+          <article class="media">
+            <figure class="media-left">
+              <% if review.user.picture.attached? %>
+                <p class="image is-128x128 is-rounded">
+                  <%= cl_image_tag(review.user.picture.key, width: 400, height: 400, crop: :scale)%>
+                </p>
+              <% end %>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong class="title is-2"><%= review.title %></strong>
+                  <br>
+                  <%= review.description %>
+                  <br>
+                  <strong><%= review.user.name %> <%= review.user.last_name %></strong> <small><%= review.user.email %></small> <small><%= review.created_at %></small>
+                </p>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading"> score </p>
+                      <p class="title is-6"> <%= review.score %> </p>
+                    </div>
+                  </div>
+
+                  <% if current_user and review.user == current_user %>
+                    <div class="level-item has-text-centered">
+                      <div>
+                        <%= link_to 'Edit Review', reviews_edit_path(:id => review.id), :class => 'button' %>
+                      </div>
+                    </div>
+                  <% end %>
+                  
+                </div>
+              </nav>
+            </div>
+            <% if current_user and ( review.user == current_user or current_user.is_admin ) %>
+              <div class="media-right">
+                <nav class="level is-mobile">
+                  <div class="level-right">
+
+                    <div class="level-item has-text-centered">
+                      <%= link_to 'delete review', reviews_delete_path(:id => review.id), method: :delete, :class => 'delete is-danger' %>
+                    </div>
+
+                  </div>
+                </nav>
+              </div>
+            <% end %>
+          </article>
+        <% end %>
+
+        <% if current_user and @course.inscripted_users.include?(current_user)%>
+
+          <article class="media">
+            <figure class="media-left">
+              <% if current_user.picture.attached? %>
+                <p class="image is-128x128 is-rounded">
+                  <%= cl_image_tag(current_user.picture.key, width: 400, height: 400, crop: :scale)%>
+                </p>
+              <% end %>
+            </figure>
+            <div class="media-content">
+
+              <%= form_with(model: @review, method: :post, url: reviews_create_path(:id => @course.id)) do |form|%>
+
+                <div class="field">
+                  <%= form.label 'Review Title', :class => 'label'%>
+                  <p class="control">
+                    <%= form.text_field :title, :class => 'input', :type => 'text', :placeholder => 'Write the title for review here'  %>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <%= form.label 'Review Description', :class => 'label' %>
+                  <p class="control">
+                    <%= form.text_area :description, :class => 'textarea', :placeholder => 'Write your review...' %>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <%= form.label "Give a score!", :class => 'label'%>
+                  <div class="control">
+                    <div class="select">
+                      <%= form.select(:score, options_for_select([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]])) %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field is-grouped">
+                  <div class="control">
+                    <%= form.submit 'Post Review', :class => 'button is-link' %>
+                  </div>
+                </div>
+
+              <% end %>
+            </div>
+          </article>
+
+          <br>
+          
+        <% end %>
+
+        <br>
+        <p><%= link_to 'Go back', courses_show_path(:id => @course.id), :class => 'button' %></p>
+        <br>
+
+
+      </div>
+    </div>
+  </div>
+</section>

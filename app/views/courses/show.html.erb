@@ -1,0 +1,146 @@
+
+<%= notice %>
+<br>
+<div class='container'>
+  <article class='media'>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong class="title is-bold"><%= @course.name %></strong>
+          <br>
+          <small>by <%= @course.user.name %> <%= @course.user.last_name %> </small>
+          <p> <%= @course.description %> </p>
+          <span class="tag is-primary"><%= @course.category %></span>
+        </p>
+      </div>
+    
+      <nav class="level is-mobile">
+        <div class="level-left">
+        
+          <div class="level-item has-text-centered">
+            <% @list = Inscription.where(course_id: @course.id) %>
+            <div>
+              <p class="heading">Students</p>
+              <p class="title is-5"><%= @list.size %></p>
+            </div>
+          </div>
+
+          <div class="level-item has-text-centered">
+            <% @rev = Review.where(course_id: @course.id)%>
+            <% @score = 0%>
+            <% for i in @rev%>
+              <% @score += i.score%>
+            <% end %>
+            <% if @rev.size > 0%>
+              <% @avg_score = @score/(@rev.size).to_f%>
+              <% @avg_score = @avg_score.to_s + '/5'%>
+            <% else %>
+              <% @avg_score = 'No reviews yet'%>
+            <% end%>
+            <div>
+              <p class="heading">Average score</p>
+              <p class="title is-5"><%= @avg_score %></p>
+            </div>
+
+            <div class="level-item">
+              <% if current_user %>
+                <% if current_user.id == @course.user.id %>
+                  <p style='margin-left: 50px'>
+                      <%= link_to 'Edit', courses_edit_path(:id => @course.id), :class => 'button' %>
+                    </p>
+                <% end %>
+              <% end %>
+              
+            </div>
+          </div>
+
+        </div>
+      </nav>
+
+      <nav class="level is-mobile">
+
+        <div class="level-left">
+
+          <div class="level-item has-text-centered">
+            <p>
+              <%= link_to 'Go Back', courses_index_path, :class => 'button' %>
+            </p>
+          </div>
+
+          <div class="level-item has-text-centered">
+            <p>
+              <%= link_to 'reviews', reviews_index_path(:id => @course.id), :class => 'button' %>
+            </p>
+          </div>
+
+          <% if current_user %>
+          
+            <% if not @course.inscripted_users.include?(current_user) and not current_user.id == @course.user.id %>
+              <div class="level-item has-text-centered">
+                <p>
+                  <%= link_to 'Inscribe to this course', inscriptions_create_path(:id => @course.id), :class => 'button' %>
+                </p>
+              </div>
+            <% end %>
+
+            <% if not current_user.id == @course.user.id and @course.inscripted_users.include?(current_user)%>
+              <div class="level-item has-text-centered">
+                  <p>
+                    <%= link_to 'Uninscribe from this course', inscriptions_delete_path(:id => @course.id), method: :delete, :class => 'button is-danger' %>
+                  </p>
+              </div>
+            <% end %>
+
+            <% if current_user.id == @course.user.id %>
+
+              <div class="level-item has-text-centered">
+                <p>
+                  <%= link_to 'Create a class', course_modules_new_path(:id => @course.id), :class => 'button is-success' %>
+                </p>
+              </div>              
+            <% end %>
+
+            <% if current_user.is_admin or current_user.id == @course.user.id %>
+              <div class="level-item has-text-centered">
+                  <p>
+                    <%= link_to 'Delete course', courses_delete_path(:id => @course.id), method: :delete, :class => 'button is-danger' %>
+                  </p>
+              </div>
+            <% end %>
+
+          <% end %> 
+        
+        </div>
+
+      </nav>
+
+    </div>
+  </article>
+
+  <br>
+
+  <% if current_user and (@course.inscripted_users.include?(current_user) or current_user.id == @course.user.id) %>
+    <% @coursemodule = @course.course_modules %>
+
+
+    <div class="tile is-ancestor is-vertical">
+      <% @coursemodule.each do |coursemodule| %>
+        <div class="tile is-parent">
+          <div class='tile is-child is-2 '>
+          </div>
+          <div class='tile is-child is-3 box'>
+            <p> thumbnail </p> 
+          </div>
+          <div class='tile is-child is-5 box'>
+            <%= link_to coursemodule.title, course_modules_show_path(:id => coursemodule.id), :class => 'is-size-4 has-text-weight-bold'%>
+            <p> <%= coursemodule.description %> </p>
+          </div>
+          <div class='tile is-child is-2 '>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+

@@ -1,0 +1,23 @@
+<h1>CourseModules#index</h1>
+
+<%= notice %>
+<% @coursemodule = @course.course_modules %>
+
+<table align='center'>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th colspan='3'></th> 
+    </tr>
+  </thead>
+  <tbody>
+    <% @coursemodule.each do |coursemodule| %>
+      <tr>
+        <td><%= coursemodule.title %></td>
+        <td><%= coursemodule.description %></td>
+        <td><%= link_to 'View details', course_modules_show_path(:id => coursemodule.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,23 @@
+<h1>Reviews#new</h1>
+
+<%= form_with(model: @review, method: :post, url: reviews_create_path(:id => @course.id)) do |form|%>
+
+  <div>
+    <%= form.label :Title %>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :Description %>
+    <%= form.text_field :description %>
+  </div>
+  <div>
+    <%= form.label :Score %>
+    <%= form.text_field :score %>
+  </div>
+  <div>
+    <%= form.submit 'Submit your review' %>
+  </div>
+<% end %>
+
+<p><%= link_to 'go back', reviews_index_path(:id => @course.id) %></p>
+

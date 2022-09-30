@@ -1,0 +1,44 @@
+
+<section class="section">
+
+  <%= form_with(model: @course, method: :patch, url: courses_update_path(:id => @course.id)) do |form|%>
+
+    <div class="field">
+      <%= form.label "Course Title", :class => 'label' %>
+      <div class="control">
+        <%= form.text_field :name, :class => 'input', :type => 'text'%>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label "Course Description", :class => 'label '%>
+      <div class="control">
+        <%= form.text_area :description, :class => 'textarea' %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label "Category", :class => 'label'%>
+      <div class="control">
+        <div class="select">
+          <%= form.select(:category, options_for_select([['MATH', 'MATH'], ['SCIENCE', 'SCIENCE'], ['COOKING', 'COOKING'], ['HISTORY', 'HISTORY']])) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <%= form.submit 'Update course', :class => 'button is-link' %>
+      </div>
+      <div class="control">
+        <%= link_to 'Cancel', courses_show_path(:id => @course.id), :class => 'button is-link is-light'%>
+      </div>
+    </div>
+
+  <% end %>
+
+</section>
+
+<section class="section">
+  <p><%= link_to 'go back', courses_show_path(:id => @course.id), :class => 'button is-link is-light'%></p>
+</section>

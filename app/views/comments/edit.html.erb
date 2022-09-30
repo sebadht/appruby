@@ -1,0 +1,39 @@
+<section class="section">
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <%= form_with(model: @comment, method: :patch, url: comments_update_path(:id => @comment.id)) do |form|%>
+
+          <div class="field">
+            <%= form.label 'Comment Title', :class => 'label'%>
+            <p class="control">
+              <%= form.text_field :title, :class => 'input', :type => 'text' %>
+            </p>
+          </div>
+
+          <div class="field">
+            <%= form.label 'Comment Content', :class => 'label' %>
+            <p class="control">
+              <%= form.text_area :content, :class => 'textarea' %>
+            </p>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= form.submit 'Update Comment', :class => 'button is-link' %>
+            </div>
+          </div>
+        
+        <br>
+
+        <% end %>
+
+        <br>
+        <%= link_to 'go back', course_modules_show_path(:id => @comment.course_module.id), :class => 'button' %>
+        <br>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: proyecto-software
+  api_key: '553227537264921'
+  api_secret: zKs3q8CLgPNteO3Z71eZkpWOtk8
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: proyecto-software
+  api_key: '553227537264921'
+  api_secret: zKs3q8CLgPNteO3Z71eZkpWOtk8
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: proyecto-software
+  api_key: '553227537264921'
+  api_secret: zKs3q8CLgPNteO3Z71eZkpWOtk8
+  enhance_image_tag: true
+  static_file_support: false

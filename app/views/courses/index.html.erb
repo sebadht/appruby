@@ -1,0 +1,108 @@
+<div id=header_inicio>
+	<%= image_tag 'logo_colorbulma.png', height: '200', width: '200' %>
+	<p align='center', style="font-family: Century Gothic; font-size:70px;"> O-Courses </p>
+	<p align='center', style="font-family: Century Gothic; font-size:25px;"> Use your brain and explore! </p>
+</div>
+<%= notice %>
+
+<br>
+
+<section class=section>
+
+	<div class=container>
+
+		<% if current_user %>
+			<nav class="level">
+				<div class="level-left">
+					<div class="level-item">
+						<p>
+							<%= link_to 'Create a course!', courses_new_path(:id => current_user.id), :class => 'button' %>
+						</p>
+					</div>
+				</div>
+				<div class="level-right">
+					<div class="level-item">
+						<%= form_tag(courses_index_path, :method => 'get') do %>
+							<%= text_field_tag :search, params[:search], :class => 'input is-small'%>
+					</div>	
+					<div class="level-item">
+						<%= submit_tag "Search", :class => 'button is-link is-small'%>
+					<% end%>
+					</div>
+					<div class="level-item">
+						<%= link_to "Advanced Search", new_search_path , :class => 'button is-link is-light is-small' %>
+					</div>
+				</div>
+			</nav>
+		<% end %>
+
+
+
+		<div class="tile is-ancestor is-vertical">
+
+			<% @courses.each_slice(3) do |chunk| %>
+
+				<div class="tile">
+
+					<% for j in 0..chunk.size-1 %>
+						<div class="tile is-4 is-parent">
+							<div class="tile is-child box">
+								<% @list = Inscription.where(course_id: chunk[j].id) %>
+								<% @rev = Review.where(course_id: chunk[j].id)%>
+								<% @score = 0%>
+								<% for i in @rev%>
+									<% @score += i.score%>
+								<% end %>
+								<% if @rev.size > 0%>
+									<% @avg_score = @score/(@rev.size).to_f%>
+									<% @avg_score = @avg_score.to_s + '/5'%>
+								<% else %>
+									<% @avg_score = 'No reviews yet'%>
+								<% end%>
+
+								<%= link_to "#{chunk[j].name}", courses_show_path(:id => chunk[j].id), :class => 'is-size-4 has-text-weight-bold'%>
+								
+								<br>
+								
+								<small class="subtitle">by <%= chunk[j].user.name %> <%= chunk[j].user.last_name %> </small>
+								<p> <%= chunk[j].description %> </p>
+								<span class="tag is-primary"> <%= chunk[j].category %> </span>
+								
+								<br>
+								<br>
+
+								<nav class="level is-mobile">
+
+									<div class="level-item has-text-centered">
+										<div>
+											<p class="heading"> Students </p>
+											<p class="title is-5"> <%= @list.size %> </p>
+										</div>
+									</div>
+
+									<div class="level-item has-text-centered">
+										<div>
+											<p class="heading"> Average score </p>
+											<p class="title is-5"> <%= @avg_score %> </p>
+										</div>
+									</div>
+
+								</nav>
+								
+							</div>
+						</div>
+					<% end %>
+
+				</div>
+
+			<% end %>	
+
+		</div>
+
+	</div>
+
+</section>
+
+
+
+

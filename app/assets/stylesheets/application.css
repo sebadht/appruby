@@ -1,0 +1,147 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
+ #header_inicio{
+  text-align: center;
+ }
+
+ .figure{
+  text-align: center;
+  display: inline-block;
+  align-content: center;
+ }
+
+  #user_profile{
+    float: left;
+    margin-right: 20px;
+    margin: auto;
+  }
+  #user_info{
+    float: None;
+  }
+
+  .button{
+    margin: auto;
+  }
+
+  .tile{
+    margin: 5px;
+  }
+
+ .column {
+  margin-top: 25px;
+  margin-bottom: 25px;
+ }
+
+ #column_curso{
+  margin-left: 25px;
+  margin-right: 25px;
+  border-radius: 10px;
+ }
+
+ #headerclases{
+  border-radius: 10px;
+  margin-left: 25px;
+ }
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#button_column{
+  margin-left: None;
+  margin-right: None;
+  margin-top: None;
+  margin-bottom: None;
+}
+
+.form-container {
+  width: 500px;
+}
+
+header {
+  background: #55d6aa;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+nav.access {
+  float: right;
+}
+
+nav.registration {
+  float: left;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav.registration li {
+  display: inline-block;
+  margin-right: 70px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+
+  position: relative;
+}
+
+nav.access li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-family: 'Century Gothic';
+}
+
+nav a:hover {
+  color: #000;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #444;
+  
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}

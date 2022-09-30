@@ -1,0 +1,48 @@
+<section class="section">
+
+  <div class="container">
+    <div class='columns is-centered'>
+      <div class='column is-half'>
+
+        <%= form_with(model: @review, method: :patch, url: reviews_update_path(:id => @review.id)) do |form|%>
+
+          <div class="field">
+            <%= form.label 'Review Title', :class => 'label'%>
+            <p class="control">
+              <%= form.text_field :title, :class => 'input', :type => 'text' %>
+            </p>
+          </div>
+
+          <div class="field">
+            <%= form.label 'Review Description', :class => 'label' %>
+            <p class="control">
+              <%= form.text_area :description, :class => 'textarea' %>
+            </p>
+          </div>
+
+          <div class="field">
+            <%= form.label "Give a score!", :class => 'label'%>
+            <div class="control">
+              <div class="select">
+                <%= form.select(:score, options_for_select([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]])) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= form.submit 'Update Review', :class => 'button is-link' %>
+            </div>
+          </div>
+        
+        <br>
+
+        <% end %>
+
+        <br>
+        <%= link_to 'go back', reviews_index_path(:id => @review.course.id), :class => 'button' %>
+        <br>
+      </div>
+    </div>
+  </div>
+</section>

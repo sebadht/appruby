@@ -1,0 +1,62 @@
+
+<% if @course.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+    <ul>
+      <% @course.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<section class="section">
+  <%= form_with(model: @course, method: :post, url: courses_create_path(:id => @user.id)) do |form|%>
+    <div class="columns is-centered">
+      <div class="column is-half">
+
+        <div class="field">
+          <%= form.label "Course Title", :class => 'label' %>
+          <div class="control">
+            <%= form.text_field :name, :class => 'input', :type => 'text', :placeholder => 'Write your course title here' %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label "Course Description", :class => 'label '%>
+          <div class="control">
+            <%= form.text_area :description, :class => 'textarea', :placeholder => 'Write your description here' %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label "Category", :class => 'label'%>
+          <div class="control">
+            <div class="select">
+              <%= form.select(:category, options_for_select([['MATH', 'MATH'], ['SCIENCE', 'SCIENCE'], ['COOKING', 'COOKING'], ['HISTORY', 'HISTORY']])) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <%= form.submit 'Create course', :class => 'button is-link' %>
+          </div>
+          <div class="control">
+            <%= link_to 'Cancel', courses_index_path, :class => 'button is-link is-light'%>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <% end %>
+</section>
+
+<section class="section">
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <p><%= link_to 'go back', courses_index_path, :class => 'button is-link is-light'%></p>
+    </div>
+  </div>
+</section>

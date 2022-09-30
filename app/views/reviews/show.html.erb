@@ -1,0 +1,31 @@
+<h1>Reviews#show</h1>
+
+<p>
+  <strong>Title: </strong>
+  <%= @review.title %>
+</p>
+
+<p>
+  <strong>Description: </strong>
+  <%= @review.description %>
+</p>
+
+<p>
+  <strong>Score: </strong>
+  <%= @review.score %>
+</p>
+
+<p>
+  <strong>Author: </strong>
+  <%= @review.user.name %>
+</p>
+
+<%= link_to 'Go Back', reviews_index_path(:id => @review.course.id) %>
+<% if current_user %>
+  <% if current_user.id == @review.user.id %>
+    <p><%= link_to 'Edit', reviews_edit_path(:id => @review.id) %></p>
+  <% end %>
+  <% if current_user.id == @review.user.id or current_user.is_admin %>
+    <p><%= link_to 'Delete', reviews_delete_path(:id => @review.id), method: :delete %></p>
+  <% end %>
+<% end %>
